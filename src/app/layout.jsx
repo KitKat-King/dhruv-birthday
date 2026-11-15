@@ -3,7 +3,10 @@ import "./globals.css";
 import SmoothScroll from "@/components/providers/smooth-scroll";
 import { asset } from "@/lib/asset";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Dhruv — Golden Hour",
   description:
     "A private birthday transmission for Dhruv. Chapter Gold: it's your golden hour.",
