@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" width="800" height="620" role="img">
+  <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+    <linearGradient id="sbbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0810"/>
+      <stop offset=".38" stop-color="#3a1424"/>
+      <stop offset=".62" stop-color="#c9503f"/>
+      <stop offset=".8" stop-color="#ffb36b"/>
+      <stop offset="1" stop-color="#1a0f08"/>
+    </linearGradient>
+    <filter id="sbglow"><feGaussianBlur stdDeviation="26"/></filter>
+</defs>
+
+  <rect width="800" height="620" fill="url(#sbbg)"/>
+  <circle cx="400" cy="420" r="230" fill="#ff9a63" opacity=".35" filter="url(#sbglow)"/>
+  <circle cx="400" cy="420" r="80" fill="#ffd9a0" opacity=".9"/>
+  <g fill="#1a0d12">
+    <path d="M0 500c90-70 160-100 240-70s120 60 190 30 130-12 190 20 120 50 180 30v110H0Z"/>
+    <path d="M0 560c110-50 200-40 290-10s170 40 260 10 170-10 250 20v40H0Z" opacity=".9"/>
+  </g>
+  <g fill="#ffeed4">
+    <circle cx="150" cy="120" r="2"/><circle cx="260" cy="80" r="1.6"/><circle cx="620" cy="140" r="2.2"/>
+    <circle cx="700" cy="90" r="1.4"/><circle cx="520" cy="60" r="1.8"/><circle cx="360" cy="110" r="1.5"/>
+    <circle cx="80" cy="220" r="1.6"/><circle cx="740" cy="250" r="1.5"/>
+  </g>
+  <g fill="none" stroke="#ffcf9a" stroke-width="1.4" opacity=".55">
+    <path d="M210 330c12-12 26-12 38 0"/><path d="M262 352c9-9 19-9 28 0"/>
+  </g>
+
+</svg>

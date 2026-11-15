@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" role="img">
+  <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+    <radialGradient id="dpSky" cx="50%" cy="38%" r="72%">
+      <stop offset="0" stop-color="#ffd89a"/>
+      <stop offset=".42" stop-color="#e08a3c"/>
+      <stop offset=".78" stop-color="#5a2c11"/>
+      <stop offset="1" stop-color="#170d06"/>
+    </radialGradient>
+    <linearGradient id="dpBust" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1009"/>
+      <stop offset="1" stop-color="#070504"/>
+    </linearGradient>
+    <linearGradient id="dpRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe4b0"/>
+      <stop offset=".55" stop-color="#ff9d4d"/>
+      <stop offset="1" stop-color="#ff7a5c"/>
+    </linearGradient>
+    <filter id="dpBlur"><feGaussianBlur stdDeviation="26"/></filter>
+</defs>
+
+  <rect width="900" height="1100" fill="url(#dpSky)"/>
+  <circle cx="450" cy="430" r="300" fill="#ffcf7d" opacity=".55" filter="url(#dpBlur)"/>
+  <circle cx="450" cy="430" r="218" fill="#fff0cc" opacity=".72"/>
+  <circle cx="450" cy="430" r="218" fill="none" stroke="#ffe3a8" stroke-width="1.5" opacity=".7"/>
+  <g fill="none" stroke="#ffe8bd" stroke-width="1" opacity=".32">
+    <path d="M450 90v110"/><path d="M450 660v110"/>
+    <path d="M110 430h110"/><path d="M680 430h110"/>
+    <path d="M214 194l76 76"/><path d="M610 590l76 76"/>
+    <path d="M686 194l-76 76"/><path d="M290 590l-76 76"/>
+  </g>
+  <path d="M254 1100c0-206 76-318 196-318 120 0 196 112 196 318H254Z" fill="url(#dpBust)"/>
+  <path d="M450 782c74 0 106 58 112 120 10 96 32 158 70 198H268c38-40 60-102 70-198 6-62 38-120 112-120Z" fill="url(#dpBust)"/>
+  <ellipse cx="450" cy="560" rx="122" ry="152" fill="url(#dpBust)"/>
+  <path d="M340 520c0-94 46-158 110-158s110 64 110 158c0 22-8 44-18 60-4-58-30-92-52-108-26 40-84 56-132 50-10 28-14 48-18 58-10-16-18-38-18-60Z" fill="#0d0805" opacity=".85"/>
+  <path d="M572 470c26 26 40 62 36 104-3 36-18 66-42 88 14-58 12-130 6-192Z" fill="url(#dpRim)" opacity=".45"/>
+  <path d="M330 1002c40-78 82-120 120-120s80 42 120 120" fill="none" stroke="url(#dpRim)" stroke-width="2" opacity=".35"/>
+  <g fill="#ffe9c4">
+    <circle cx="170" cy="250" r="2.5" opacity=".8"/>
+    <circle cx="742" cy="330" r="2" opacity=".6"/>
+    <circle cx="700" cy="760" r="3" opacity=".5"/>
+    <circle cx="196" cy="700" r="2" opacity=".55"/>
+  </g>
+
+</svg>

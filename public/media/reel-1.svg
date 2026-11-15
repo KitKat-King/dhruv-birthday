@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img">
+  <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+    <linearGradient id="r1bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#211208"/>
+      <stop offset=".55" stop-color="#5c2c11"/>
+      <stop offset="1" stop-color="#0b0704"/>
+    </linearGradient>
+    <linearGradient id="r1leak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff7a5c" stop-opacity=".0"/>
+      <stop offset=".5" stop-color="#ffb067" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#fff0c9" stop-opacity=".0"/>
+    </linearGradient>
+    <filter id="r1blur"><feGaussianBlur stdDeviation="30"/></filter>
+</defs>
+
+  <rect width="800" height="1000" fill="url(#r1bg)"/>
+  <circle cx="540" cy="280" r="210" fill="#f4b860" opacity=".28" filter="url(#r1blur)"/>
+  <path d="M-100 620 900 240" stroke="url(#r1leak)" stroke-width="160" filter="url(#r1blur)"/>
+  <circle cx="330" cy="470" r="190" fill="none" stroke="#ffd9a0" stroke-width="2" opacity=".55"/>
+  <circle cx="330" cy="470" r="150" fill="none" stroke="#ff7a5c" stroke-width="10" opacity=".3"/>
+  <circle cx="330" cy="470" r="86" fill="#1b1007" stroke="#ffd9a0" stroke-width="1.5" opacity=".8"/>
+  <g stroke="#ffe9c4" stroke-width="1" opacity=".4">
+    <path d="M90 190h180"/><path d="M90 210h120"/><path d="M610 780h120"/><path d="M560 800h170"/>
+  </g>
+  <g fill="#ffe9c4">
+    <circle cx="620" cy="560" r="3"/><circle cx="180" cy="760" r="2"/><circle cx="700" cy="180" r="2.4"/>
+  </g>
+
+</svg>

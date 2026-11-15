@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" role="img">
+  <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+    <linearGradient id="ghsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1008"/>
+      <stop offset=".4" stop-color="#7a3d13"/>
+      <stop offset=".66" stop-color="#e9963f"/>
+      <stop offset=".82" stop-color="#ffd79a"/>
+      <stop offset="1" stop-color="#2a160a"/>
+    </linearGradient>
+    <radialGradient id="ghsun" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff9ea"/>
+      <stop offset=".58" stop-color="#ffd494"/>
+      <stop offset="1" stop-color="#ff9a63" stop-opacity=".08"/>
+    </radialGradient>
+    <filter id="ghblur"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+
+  <rect width="900" height="1100" fill="url(#ghsky)"/>
+  <circle cx="450" cy="540" r="300" fill="url(#ghsun)"/>
+  <circle cx="450" cy="540" r="120" fill="#fff3d6"/>
+  <path d="M0 730c140-60 260-20 380-50s220-64 340-30 140 44 180 30v420H0Z" fill="#1c0f08" opacity=".85"/>
+  <g fill="#100a05">
+    <circle cx="330" cy="760" r="22"/><rect x="316" y="772" width="28" height="86" rx="14"/>
+    <circle cx="390" cy="778" r="19"/><rect x="378" y="788" width="24" height="70" rx="12"/>
+    <path d="M310 856c0-14 9-24 20-24s20 10 20 24Z"/>
+    <path d="M372 854c0-12 8-21 18-21s18 9 18 21Z"/>
+  </g>
+  <g fill="none" stroke="#1a0f08" stroke-width="2.5" stroke-linecap="round" opacity=".65">
+    <path d="M600 330c12-12 26-12 38 0"/><path d="M652 352c9-9 19-9 28 0"/>
+  </g>
+  <g stroke="#ffe3b4" stroke-width="1" opacity=".35">
+    <path d="M120 540h150"/><path d="M630 540h150"/><path d="M450 260v92"/>
+  </g>
+
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 870" width="800" height="870" role="img">
+  <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+    <linearGradient id="m2bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1208"/>
+      <stop offset=".5" stop-color="#14100a"/>
+      <stop offset="1" stop-color="#0a0806"/>
+    </linearGradient>
+    <filter id="m2blur"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="m2soft"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+
+  <rect width="800" height="870" fill="url(#m2bg)"/>
+  <circle cx="250" cy="290" r="170" fill="#ff7a5c" opacity=".35" filter="url(#m2blur)"/>
+  <circle cx="600" cy="600" r="200" fill="#f4b860" opacity=".32" filter="url(#m2blur)"/>
+  <circle cx="620" cy="220" r="120" fill="#8fa6ff" opacity=".22" filter="url(#m2blur)"/>
+  <path d="M-40 640C170 470 300 760 470 610s230-40 370 80" fill="none" stroke="#ffb067" stroke-width="46" opacity=".38" filter="url(#m2soft)"/>
+  <path d="M-30 740C180 590 330 840 520 690s210-30 330 70" fill="none" stroke="#ff7a5c" stroke-width="20" opacity=".5"/>
+  <path d="M-20 250C160 130 250 330 420 220s250 90 400 10" fill="none" stroke="#79e0be" stroke-width="6" opacity=".45"/>
+  <g opacity=".8">
+    <circle cx="210" cy="420" r="58" fill="none" stroke="#ffe0a6" stroke-width="2"/>
+    <circle cx="540" cy="470" r="34" fill="none" stroke="#ff9f7c" stroke-width="2"/>
+    <circle cx="660" cy="740" r="72" fill="none" stroke="#f4b860" stroke-width="1.5" opacity=".7"/>
+    <circle cx="120" cy="700" r="22" fill="#ffd9a0" opacity=".4"/>
+  </g>
+  <g fill="#ffe9c4">
+    <circle cx="330" cy="180" r="3"/><circle cx="470" cy="320" r="2"/><circle cx="720" cy="380" r="2.5"/>
+    <circle cx="150" cy="540" r="2"/><circle cx="390" cy="760" r="3"/><circle cx="600" cy="120" r="2"/>
+  </g>
+  <g stroke="#f4b860" stroke-width="2" opacity=".6">
+    <path d="M300 120l8 24 24 8-24 8-8 24-8-24-24-8 24-8Z"/>
+    <path d="M690 500l5 15 15 5-15 5-5 15-5-15-15-5 15-5Z"/>
+  </g>
+
+</svg>

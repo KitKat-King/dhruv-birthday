@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img">
+  <defs>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+    <linearGradient id="r2bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c0a08"/>
+      <stop offset=".6" stop-color="#2b160c"/>
+      <stop offset="1" stop-color="#0a0704"/>
+    </linearGradient>
+    <radialGradient id="r2label" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#fff0cd"/>
+      <stop offset=".55" stop-color="#f4b860"/>
+      <stop offset="1" stop-color="#b4562a"/>
+    </radialGradient>
+</defs>
+
+  <rect width="800" height="1000" fill="url(#r2bg)"/>
+  <circle cx="400" cy="520" r="300" fill="#0a0806" stroke="#2a1a0e" stroke-width="2"/>
+  <g fill="none" stroke="#4a2f1a" opacity=".7">
+    <circle cx="400" cy="520" r="270" stroke-width="1"/>
+    <circle cx="400" cy="520" r="240" stroke-width="1"/>
+    <circle cx="400" cy="520" r="210" stroke-width="1"/>
+    <circle cx="400" cy="520" r="180" stroke-width="1"/>
+    <circle cx="400" cy="520" r="150" stroke-width="1"/>
+  </g>
+  <circle cx="400" cy="520" r="106" fill="url(#r2label)"/>
+  <circle cx="400" cy="520" r="24" fill="#1a1008"/>
+  <g fill="none" stroke="#ffe0a6" stroke-width="1.2" opacity=".5">
+    <path d="M400 260v44"/><path d="M400 736v44"/><path d="M140 520h44"/><path d="M616 520h44"/>
+  </g>
+  <path d="M-40 860C160 760 300 940 480 860s240-20 360 40" fill="none" stroke="#ff7a5c" stroke-width="2" opacity=".5"/>
+  <g fill="#ffe9c4">
+    <circle cx="160" cy="180" r="2"/><circle cx="650" cy="240" r="2.5"/><circle cx="690" cy="800" r="2"/>
+  </g>
+
+</svg>
