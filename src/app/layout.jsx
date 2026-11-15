@@ -16,13 +16,13 @@ export const metadata = {
     title: "Dhruv — Golden Hour",
     description: "A private birthday transmission. Unlock the golden hour.",
     type: "website",
-    images: [{ url: asset("/media/cover.svg"), width: 1200, height: 630, alt: "Dhruv — Golden Hour" }],
+    images: [{ url: asset("/media/cover.png"), width: 1200, height: 630, alt: "Dhruv — Golden Hour" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dhruv — Golden Hour",
     description: "A private birthday transmission. Unlock the golden hour.",
-    images: [asset("/media/cover.svg")],
+    images: [asset("/media/cover.png")],
   },
 };
 

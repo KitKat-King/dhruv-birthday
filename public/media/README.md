@@ -18,7 +18,8 @@ The portrait appears in the **SC.02 dossier** panel. Keep the face in the upper 
 | `scene-a.svg`, `scene-b.svg` | SC.04 projector cards |
 | `reel-1.svg`, `reel-2.svg` | SC.04 contact sheet |
 | `gift.svg` | SC.04 scratch card reveal |
-| `cover.svg` | Open Graph / social preview |
+| `cover.png` | Open Graph / social preview (rendered from `cover.svg`) |
+| `cover.svg` | Source art for the share card |
 | `dp.svg` | Portrait fallback |
 
 Swap any of them with a real photo of the same name and aspect ratio (JPG/WebP works too — update the path in the component if the extension changes).
