@@ -161,7 +161,7 @@ export default function MusicChapter() {
           eyebrow="THE SOUNDTRACK · TWO SIDES"
           title="press play."
           accent="stay a while."
-          copy="Side A is the song that owns the aux. Side B only gets played once a year. Both slots are wired and waiting for the files — drop the mp3s in and the whole scene starts breathing."
+          copy="Side A is the song that owns the aux — Soni Soni is already loaded and playable. Side B only gets played once a year, and it is still waiting for its file. The whole scene starts breathing the moment both slots are full."
         />
 
         <Reveal delay={0.06}>
@@ -377,7 +377,7 @@ export default function MusicChapter() {
         <Reveal delay={0.08}>
           <div className="music-footnote">
             <span className="mono"><Volume2 size={12} /> AUDIO SLOTS ARMED</span>
-            <p>Two songs, two files: <b>soni-soni.mp3</b> and <b>happy-birthday.mp3</b> in <b>public/audio/</b>. Until they land the cut plays silent — the light show runs either way.</p>
+            <p>Two songs, two files: <b>soni-soni.mp3</b> is in and playing; <b>happy-birthday.mp3</b> still belongs in <b>public/audio/</b>. Until it lands, that side runs silent — the light show goes on either way.</p>
             <span className="mono"><Radio size={12} /> {totalWords} WORDS · 2 SIDES</span>
           </div>
         </Reveal>
