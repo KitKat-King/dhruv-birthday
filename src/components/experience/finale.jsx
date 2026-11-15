@@ -250,7 +250,7 @@ export default function Finale({ onReplay }) {
         </div>
         <div className="credits-thanks">
           <Sunflower className="credits-sunflower" />
-          <p>Thank you for being the kind of person people make films about.</p>
+          <p>Thank you for being the kind of friend that makes a birthday feel like a premiere.</p>
         </div>
       </div>
 

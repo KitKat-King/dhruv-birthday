@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Heart, ImageIcon, RotateCcw, Scissors, Sparkles } from "lucide-react";
+import { Heart, RotateCcw, Scissors, Sparkles } from "lucide-react";
 import { Sunflower, Reveal, SectionHead } from "@/components/ui/motion-kit";
 import { sfx, vibrate } from "@/lib/sfx";
 import { EASE } from "@/lib/motion";
@@ -13,15 +13,6 @@ const MEMORIES = [
   { src: asset("/media/memory-2.svg"), label: "the chaos", note: "The laugh that turns a normal Tuesday into a story.", time: "00:04:16:08" },
   { src: asset("/media/memory-3.svg"), label: "the calm", note: "Loudest person in the room. Safest place in it.", time: "00:07:11:02" },
   { src: asset("/media/memory-4.svg"), label: "the gold", note: "Golden hour looks good on you. So does this year.", time: "00:16:11:26" },
-];
-
-const STRIP = [
-  { src: asset("/media/memory-1.svg"), label: "entrance", time: "00:01" },
-  { src: asset("/media/memory-2.svg"), label: "chaos", time: "00:04" },
-  { src: asset("/media/reel-1.svg"), label: "opening scene", time: "00:08" },
-  { src: asset("/media/memory-3.svg"), label: "calm", time: "00:11" },
-  { src: asset("/media/reel-2.svg"), label: "plot twist", time: "00:14" },
-  { src: asset("/media/memory-4.svg"), label: "the gold", time: "00:16" },
 ];
 
 function PolaroidStack() {
@@ -251,34 +242,6 @@ export default function Memories() {
             <ScratchCard />
           </Reveal>
         </div>
-
-        <Reveal>
-          <div className="strip-head">
-            <span className="mono"><ImageIcon size={12} /> CONTACT SHEET · 6 FRAMES</span>
-            <span className="mono">DRAG / SCROLL →</span>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <div className="filmstrip-wrap">
-            <div className="filmstrip" role="list" aria-label="Photo film strip">
-              <span className="sprockets top" aria-hidden="true" />
-              {STRIP.map((frame) => (
-                <figure className="frame" key={frame.src + frame.label} role="listitem">
-                  <div className="frame-img">
-                    <img src={frame.src} alt={frame.label} loading="lazy" />
-                    <span className="frame-leak" aria-hidden="true" />
-                  </div>
-                  <figcaption className="mono">
-                    <span>{frame.time}</span>
-                    <span>{frame.label}</span>
-                  </figcaption>
-                </figure>
-              ))}
-              <span className="sprockets bottom" aria-hidden="true" />
-            </div>
-          </div>
-        </Reveal>
 
         <div className="projector-row">
           <Reveal>

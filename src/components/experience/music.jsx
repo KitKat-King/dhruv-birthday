@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -105,7 +105,6 @@ export default function MusicChapter() {
   const wordsInLine = lines[activeLine].split(" ");
   const litWords = Math.max(1, Math.ceil(lineFraction * wordsInLine.length));
 
-  const totalWords = useMemo(() => lines.reduce((sum, line) => sum + line.split(" ").length, 0), [lines]);
 
   async function togglePlay() {
     const el = audioRef.current;
@@ -377,8 +376,6 @@ export default function MusicChapter() {
         <Reveal delay={0.08}>
           <div className="music-footnote">
             <span className="mono"><Volume2 size={12} /> AUDIO SLOTS ARMED</span>
-            <p>Two songs, two files: <b>soni-soni.mp3</b> is in and playing; <b>happy-birthday.mp3</b> still belongs in <b>public/audio/</b>. Until it lands, that side runs silent — the light show goes on either way.</p>
-            <span className="mono"><Radio size={12} /> {totalWords} WORDS · 2 SIDES</span>
           </div>
         </Reveal>
 

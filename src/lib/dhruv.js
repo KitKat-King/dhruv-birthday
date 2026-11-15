@@ -44,7 +44,7 @@ export const DHRUV = {
 
 export const CHAPTERS = [
   { id: "hero", label: "HERO", scene: "SC.01" },
-  { id: "dossier", label: "DOSSIER", scene: "SC.02" },
+  { id: "dossier", label: "DOSSIER", scene: "GOLD" },
   { id: "music", label: "ANTHEMS", scene: "SC.03" },
   { id: "memories", label: "REEL", scene: "SC.04" },
   { id: "wish", label: "WISH", scene: "SC.05" },

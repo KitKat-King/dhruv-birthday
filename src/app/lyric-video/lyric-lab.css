@@ -162,6 +162,18 @@
 }
 @keyframes llFloat { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-9px) rotate(2deg); } }
 
+/* ── Scroll hint ─────────────────────────────────────────────── */
+.ll-scroll-hint {
+  position: sticky; top: 8px; z-index: 12; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 0; margin-bottom: 4px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--card-line);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 24px rgba(231, 0, 68, 0.12);
+  color: var(--rose-600);
+}
+
 /* ── Guide chrome ────────────────────────────────────────────── */
 .ll-page { position: relative; z-index: 2; padding: clamp(26px, 5vw, 40px) 0 0; }
 .ll-topbar {

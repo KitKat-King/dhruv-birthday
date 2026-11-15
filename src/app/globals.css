@@ -525,7 +525,7 @@ img { display: block; max-width: 100%; }
 @keyframes breathe { 50% { transform: scale(1.14); opacity: 0.7; } }
 
 /* ═════════════════════════════════════════════════════════════
-   SC.02 — DOSSIER / CERTIFIED GOLD
+   GOLD · DOSSIER / CERTIFIED GOLD
    ═════════════════════════════════════════════════════════════ */
 .dossier {
   position: relative; padding: var(--pad) 0;

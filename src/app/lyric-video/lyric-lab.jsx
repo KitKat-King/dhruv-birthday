@@ -18,6 +18,7 @@ import {
   Sparkles,
   Volume2,
   ArrowLeft,
+  ChevronDown,
 } from "lucide-react";
 import { DHRUV } from "@/lib/dhruv";
 import { SONI_SONI } from "@/lib/soni-soni-sync";
@@ -424,6 +425,10 @@ export default function LyricLab() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="ll-wrap">
+            <div className="ll-scroll-hint" aria-hidden="true">
+              <ChevronDown size={13} />
+              <span>Scroll</span>
+            </div>
             <header className="ll-topbar">
               <Link href="/" className="ll-brand">
                 <span className="ll-brand-mark"><Music2 size={16} /></span>

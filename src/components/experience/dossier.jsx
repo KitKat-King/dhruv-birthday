@@ -46,7 +46,7 @@ export default function Dossier() {
       <div className="dossier-aura" aria-hidden="true" />
       <div className="wrap">
         <SectionHead
-          scene="SC.02"
+          scene="GOLD"
           eyebrow="THE GOLDEN DOSSIER"
           title="main character"
           accent="energy."
@@ -65,7 +65,7 @@ export default function Dossier() {
                 <article className="id-card face-front" onClick={flip} aria-label="Dhruv dossier card, tap to flip">
                   <div className="id-holo" aria-hidden="true" />
                   <div className="id-top mono">
-                    <span>SUBJECT_001</span>
+                    <span>FILE_001</span>
                     <span className="id-clearance">CLASSIFIED · GOLD</span>
                   </div>
                   <div className="id-crest">
@@ -135,7 +135,7 @@ export default function Dossier() {
           <Reveal delay={0.1}>
             <TiltCard className="portrait-panel" max={8}>
               <div className="portrait-panel-glow" aria-hidden="true" />
-              <span className="micro mono">SUBJECT PORTRAIT · 001</span>
+              <span className="micro mono">PORTRAIT · 001</span>
               <div className="portrait-frame">
                 <span className="portrait-orbit" aria-hidden="true" />
                 <Portrait />
@@ -146,7 +146,6 @@ export default function Dossier() {
               <div className="portrait-chips">
                 <span className="mini-chip mono"><BadgeCheck size={11} /> CERTIFIED GOLD</span>
                 <span className="mini-chip mono">16 NOV</span>
-                <span className="mini-chip mono">SC.02</span>
               </div>
               <Sunflower className="portrait-flower" />
             </TiltCard>
