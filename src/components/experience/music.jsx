@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  ArrowUpRight,
   ChevronUp,
   Disc3,
   Pause,
@@ -19,20 +21,15 @@ import { sfx, vibrate } from "@/lib/sfx";
 import { EASE } from "@/lib/motion";
 import { asset } from "@/lib/asset";
 
-const LINES = [
-  [
-    "Sun on the dashboard, nowhere to be",
-    "Windows down, the whole city agrees",
-    "These are the hours we keep",
-  ],
-  [
-    "Stay a little longer, let the light go low",
-    "Every quiet minute turning gold",
-    "Nothing here we have to let go",
-  ],
-];
-
 const SCENES = [asset("/media/golden-hour.svg"), asset("/media/afterglow.svg")];
+const FALLBACK_SECONDS = 214;
+
+function clock(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
 
 function Equalizer({ active, className = "" }) {
   return (
@@ -55,19 +52,53 @@ export default function MusicChapter() {
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [islandOpen, setIslandOpen] = useState(false);
+  const [audioState, setAudioState] = useState("loading"); // loading | ready | missing
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef(null);
   const song = DHRUV.songs[track];
-  const lines = LINES[track];
+  const lines = song.lines;
 
+  /* Real audio drives the timeline when the file exists. */
   useEffect(() => {
-    if (!playing) return;
+    const el = audioRef.current;
+    if (!el) return;
+    const onMeta = () => {
+      if (el.duration && Number.isFinite(el.duration)) {
+        setDuration(el.duration);
+        setAudioState("ready");
+      }
+    };
+    const onTime = () => {
+      if (el.duration) setProgress(Math.min(1, el.currentTime / el.duration));
+    };
+    const onEnd = () => {
+      setPlaying(false);
+      setProgress(0);
+    };
+    el.addEventListener("loadedmetadata", onMeta);
+    el.addEventListener("durationchange", onMeta);
+    el.addEventListener("timeupdate", onTime);
+    el.addEventListener("ended", onEnd);
+    el.addEventListener("error", () => setAudioState("missing"));
+    return () => {
+      el.removeEventListener("loadedmetadata", onMeta);
+      el.removeEventListener("durationchange", onMeta);
+      el.removeEventListener("timeupdate", onTime);
+      el.removeEventListener("ended", onEnd);
+    };
+  }, [track]);
+
+  /* Silent fallback: keep the visualizer moving while the mp3 is still missing. */
+  useEffect(() => {
+    if (!playing || audioState === "ready") return;
     const timer = setInterval(() => {
-      setProgress((value) => {
-        const next = value + 0.008;
-        return next >= 1 ? 0 : next;
-      });
+      setProgress((value) => (value + 0.008 >= 1 ? 0 : value + 0.008));
     }, 110);
     return () => clearInterval(timer);
-  }, [playing, track]);
+  }, [playing, track, audioState]);
+
+  const seconds = audioState === "ready" && duration ? progress * duration : progress * FALLBACK_SECONDS;
+  const totalSeconds = audioState === "ready" && duration ? duration : FALLBACK_SECONDS;
 
   const activeLine = Math.min(lines.length - 1, Math.floor(progress * lines.length));
   const lineFraction = progress * lines.length - activeLine;
@@ -76,15 +107,37 @@ export default function MusicChapter() {
 
   const totalWords = useMemo(() => lines.reduce((sum, line) => sum + line.split(" ").length, 0), [lines]);
 
-  function togglePlay() {
-    setPlaying((value) => !value);
+  async function togglePlay() {
+    const el = audioRef.current;
+    if (audioState === "ready" && el) {
+      if (el.paused) {
+        try {
+          await el.play();
+          setPlaying(true);
+        } catch {
+          setAudioState("missing");
+          setPlaying((value) => !value);
+        }
+      } else {
+        el.pause();
+        setPlaying(false);
+      }
+    } else {
+      setPlaying((value) => !value);
+    }
     sfx.click();
     vibrate(10);
   }
 
   function switchTrack(next = (track + 1) % DHRUV.songs.length) {
+    const el = audioRef.current;
+    if (el) {
+      el.pause();
+      el.currentTime = 0;
+    }
     setTrack(next);
     setProgress(0);
+    setDuration(0);
     setPlaying(true);
     sfx.cassette();
     vibrate([8, 30, 8]);
@@ -93,6 +146,8 @@ export default function MusicChapter() {
   function scrub(event) {
     const box = event.currentTarget.getBoundingClientRect();
     const ratio = Math.min(1, Math.max(0, (event.clientX - box.left) / box.width));
+    const el = audioRef.current;
+    if (audioState === "ready" && el && el.duration) el.currentTime = ratio * el.duration;
     setProgress(ratio);
     sfx.click();
   }
@@ -106,7 +161,7 @@ export default function MusicChapter() {
           eyebrow="THE SOUNDTRACK · TWO SIDES"
           title="press play."
           accent="stay a while."
-          copy="A visual mixtape built from the two moods that own the aux. No borrowed lyrics — just the feeling, translated into light, motion and sunflowers."
+          copy="Side A is the song that owns the aux. Side B only gets played once a year. Both slots are wired and waiting for the files — drop the mp3s in and the whole scene starts breathing."
         />
 
         <Reveal delay={0.06}>
@@ -148,7 +203,7 @@ export default function MusicChapter() {
                       <span className={`reel ${playing ? "spin" : ""}`} />
                     </div>
                     <div className="cassette-label">
-                      <span className="mono">SIDE {track === 0 ? "A" : "B"} · GOLD</span>
+                      <span className="mono">SIDE {track === 0 ? "A" : "B"} · 16.11</span>
                       <strong>{song.title}</strong>
                       <span className="mono cassette-mood">{song.mood}</span>
                     </div>
@@ -160,7 +215,7 @@ export default function MusicChapter() {
               </div>
 
               <p className="mono cassette-note">
-                VISUAL MIXTAPE · ORIGINAL MOOD LINES · TAP TO FLIP SIDES
+                TWO SIDES · TWO SONGS · TAP TO FLIP
               </p>
             </div>
 
@@ -183,14 +238,14 @@ export default function MusicChapter() {
                 <div className="player-main">
                   <div className="player-live mono">
                     <span className={playing ? "signal on" : "signal"} />
-                    {playing ? "NOW IN THE AIR" : "READY WHEN YOU ARE"}
+                    {playing ? (audioState === "ready" ? "NOW IN THE AIR" : "VISUAL ONLY") : "READY WHEN YOU ARE"}
                   </div>
                   <h3 className="player-title">{song.title}</h3>
                   <p className="mono player-sub">{song.mood}</p>
 
                   <Equalizer active={playing} />
 
-                  <div className="player-progress" onClick={scrub} role="slider" aria-label="Scrub visual mixtape" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(progress * 100)} tabIndex={0}
+                  <div className="player-progress" onClick={scrub} role="slider" aria-label="Scrub the track" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(progress * 100)} tabIndex={0}
                     onKeyDown={(event) => {
                       if (event.key === "ArrowRight") setProgress((p) => Math.min(1, p + 0.05));
                       if (event.key === "ArrowLeft") setProgress((p) => Math.max(0, p - 0.05));
@@ -201,18 +256,42 @@ export default function MusicChapter() {
                   </div>
 
                   <div className="player-controls">
-                    <button type="button" className="play-btn" onClick={togglePlay} aria-label={playing ? "Pause visualizer" : "Play visualizer"}>
+                    <button type="button" className="play-btn" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>
                       {playing ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
                     </button>
-                    <button type="button" className="side-btn" onClick={() => switchTrack()} aria-label="Switch to the other anthem">
+                    <button type="button" className="side-btn" onClick={() => switchTrack()} aria-label="Switch to the other song">
                       <SkipForward size={16} />
                       <span className="mono">NEXT SIDE</span>
                     </button>
                     <span className="mono player-time">
-                      {String(Math.floor(progress * 4.16)).padStart(1, "0")}:
-                      {String(Math.floor((progress * 4.16 * 60) % 60)).padStart(2, "0")}
+                      {clock(seconds)} / {clock(totalSeconds)}
                     </span>
                   </div>
+
+                  <AnimatePresence mode="wait">
+                    {audioState === "missing" && (
+                      <motion.p
+                        key="missing"
+                        className="audio-slot mono"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        <Volume2 size={11} /> SLOT EMPTY · ADD <b>{song.file}</b>
+                      </motion.p>
+                    )}
+                    {audioState === "ready" && (
+                      <motion.p
+                        key="ready"
+                        className="audio-slot mono is-live"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        <Volume2 size={11} /> LIVE AUDIO · {clock(duration)} LOADED
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <span className="player-gloss" aria-hidden="true" />
@@ -237,7 +316,7 @@ export default function MusicChapter() {
               <div className="lyric-card">
                 <div className="lyric-head mono">
                   <span><Sparkles size={11} /> SIDE {track === 0 ? "A" : "B"}</span>
-                  <span>{DHRUV.songs[track].title}</span>
+                  <span>{song.title}</span>
                 </div>
 
                 <div className="lyric-lines" aria-live="polite">
@@ -289,7 +368,7 @@ export default function MusicChapter() {
                   )}
                 </AnimatePresence>
 
-                <p className="lyric-note mono">TAP A LINE TO CUE IT · WORDS LIGHT AS THE TRACK MOVES</p>
+                <p className="lyric-note mono">TAP A LINE TO CUE IT · WORDS LIGHT WITH THE TRACK</p>
               </div>
             </div>
           </Reveal>
@@ -297,12 +376,32 @@ export default function MusicChapter() {
 
         <Reveal delay={0.08}>
           <div className="music-footnote">
-            <span className="mono"><Volume2 size={12} /> AUDIO-FREE BY DESIGN</span>
-            <p>Every beat you see is drawn in real time — a lyric-video mood board with no sound, no borrowed words, and all of the feeling.</p>
+            <span className="mono"><Volume2 size={12} /> AUDIO SLOTS ARMED</span>
+            <p>Two songs, two files: <b>soni-soni.mp3</b> and <b>happy-birthday.mp3</b> in <b>public/audio/</b>. Until they land the cut plays silent — the light show runs either way.</p>
             <span className="mono"><Radio size={12} /> {totalWords} WORDS · 2 SIDES</span>
           </div>
         </Reveal>
+
+        <Reveal delay={0.1}>
+          <Link href="/lyric-video" className="lab-link">
+            <span className="lab-link-icon"><Sparkles size={14} /></span>
+            <span className="lab-link-copy">
+              <span className="mono">EXTRA SCENE · LOCKED</span>
+              <strong>Open the Lyric Lab</strong>
+              <em>Soni Soni, synced word by word — code required.</em>
+            </span>
+            <ArrowUpRight size={18} />
+          </Link>
+        </Reveal>
       </div>
+
+      <audio
+        key={song.id}
+        ref={audioRef}
+        src={asset(song.file)}
+        preload="metadata"
+        aria-label={`${song.title} audio`}
+      />
 
       <AnimatePresence>
         {playing && (
@@ -315,7 +414,7 @@ export default function MusicChapter() {
             transition={{ type: "spring", stiffness: 320, damping: 26 }}
             onClick={() => setIslandOpen((value) => !value)}
             role="status"
-            aria-label="Now playing visual mixtape"
+            aria-label="Now playing"
           >
             <div className="island-inner">
               <span className={`island-vinyl ${playing ? "spin" : ""}`} aria-hidden="true" />
@@ -363,7 +462,7 @@ export default function MusicChapter() {
                   ))}
                 </div>
                 <div className="island-lines mono">
-                  <span>VISUAL MIXTAPE</span>
+                  <span>{audioState === "ready" ? "LIVE AUDIO" : "VISUAL MIXTAPE"}</span>
                   <span>{Math.round(progress * 100)}%</span>
                 </div>
               </motion.div>

@@ -4,10 +4,11 @@ All artwork in this folder is original placeholder SVG. Replace files without to
 
 ## The DP
 
-1. Put the real photo at `public/media/dp.jpg` (portrait crop, roughly 900 × 1100, JPG/PNG/WebP).
-2. That's it. `SmartImage` tries `/media/dp.jpg` first and silently falls back to `dp.svg`.
+`dp.jpg` is in place — Dhruv's profile photo (circular crop, 800 × 800), shown in the
+**SC.02 dossier** panel and on the **Lyric Lab** lock card.
 
-The portrait appears in the **SC.02 dossier** panel. Keep the face in the upper third — the frame uses `object-position: 50% 24%`.
+To swap it: replace `public/media/dp.jpg`. `SmartImage` falls back to `dp.svg` if the
+file is missing, so a bad upload can't break the layout.
 
 ## Other artwork
 

@@ -137,9 +137,10 @@ export default function Dossier() {
               <div className="portrait-panel-glow" aria-hidden="true" />
               <span className="micro mono">SUBJECT PORTRAIT · 001</span>
               <div className="portrait-frame">
+                <span className="portrait-orbit" aria-hidden="true" />
                 <Portrait />
-                <span className="portrait-caption mono">GOLDEN HOUR · 16 NOV</span>
               </div>
+              <span className="portrait-caption mono">GOLDEN HOUR · 16 NOV</span>
               <h3 className="portrait-title">Dhruv<br /><em>Kaushal.</em></h3>
               <p className="portrait-copy">Golden hour in human form. The friend who turns an ordinary day into the part of the story everyone remembers.</p>
               <div className="portrait-chips">
