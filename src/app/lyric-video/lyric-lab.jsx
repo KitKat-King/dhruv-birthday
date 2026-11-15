@@ -650,7 +650,7 @@ export default function LyricLab() {
             </footer>
           </div>
         </motion.div>
-      )}
+      ) : null}
 
       <Toast text={toast} />
     </div>
