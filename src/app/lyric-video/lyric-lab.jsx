@@ -397,15 +397,11 @@ const PROMPT =
 
 export default function LyricLab() {
   const [unlocked, setUnlocked] = useState(false);
-  const [booted, setBooted] = useState(false);
   const { toast, copy } = useCopy();
 
   useEffect(() => {
-    setBooted(true);
     if (sessionStorage.getItem("dhrv-lyric-lab") === "1") setUnlocked(true);
   }, []);
-
-  if (!booted) return null;
 
   return (
     <div className="ll">
@@ -417,7 +413,7 @@ export default function LyricLab() {
         {!unlocked && <LockScreen onUnlock={() => setUnlocked(true)} />}
       </AnimatePresence>
 
-      {unlocked && (
+      {unlocked ? (
         <motion.div
           className="ll-page"
           initial={{ opacity: 0, y: 18 }}
