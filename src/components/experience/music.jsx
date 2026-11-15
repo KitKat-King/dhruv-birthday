@@ -17,6 +17,7 @@ import { Sunflower, Reveal, SectionHead, TiltCard } from "@/components/ui/motion
 import { DHRUV } from "@/lib/dhruv";
 import { sfx, vibrate } from "@/lib/sfx";
 import { EASE } from "@/lib/motion";
+import { asset } from "@/lib/asset";
 
 const LINES = [
   [
@@ -31,7 +32,7 @@ const LINES = [
   ],
 ];
 
-const SCENES = ["/media/golden-hour.svg", "/media/afterglow.svg"];
+const SCENES = [asset("/media/golden-hour.svg"), asset("/media/afterglow.svg")];
 
 function Equalizer({ active, className = "" }) {
   return (

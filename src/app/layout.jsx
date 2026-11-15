@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap-grid.min.css";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/smooth-scroll";
+import { asset } from "@/lib/asset";
 
 export const metadata = {
   title: "Dhruv — Golden Hour",
@@ -12,13 +13,13 @@ export const metadata = {
     title: "Dhruv — Golden Hour",
     description: "A private birthday transmission. Unlock the golden hour.",
     type: "website",
-    images: [{ url: "/media/cover.svg", width: 1200, height: 630, alt: "Dhruv — Golden Hour" }],
+    images: [{ url: asset("/media/cover.svg"), width: 1200, height: 630, alt: "Dhruv — Golden Hour" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dhruv — Golden Hour",
     description: "A private birthday transmission. Unlock the golden hour.",
-    images: ["/media/cover.svg"],
+    images: [asset("/media/cover.svg")],
   },
 };
 

@@ -6,21 +6,22 @@ import { Heart, ImageIcon, RotateCcw, Scissors, Sparkles } from "lucide-react";
 import { Sunflower, Reveal, SectionHead } from "@/components/ui/motion-kit";
 import { sfx, vibrate } from "@/lib/sfx";
 import { EASE } from "@/lib/motion";
+import { asset } from "@/lib/asset";
 
 const MEMORIES = [
-  { src: "/media/memory-1.svg", label: "the entrance", note: "You walk in and the room decides it's a good day.", time: "00:01:16:04" },
-  { src: "/media/memory-2.svg", label: "the chaos", note: "The laugh that turns a normal Tuesday into a story.", time: "00:04:16:08" },
-  { src: "/media/memory-3.svg", label: "the calm", note: "Loudest person in the room. Safest place in it.", time: "00:07:11:02" },
-  { src: "/media/memory-4.svg", label: "the gold", note: "Golden hour looks good on you. So does this year.", time: "00:16:11:26" },
+  { src: asset("/media/memory-1.svg"), label: "the entrance", note: "You walk in and the room decides it's a good day.", time: "00:01:16:04" },
+  { src: asset("/media/memory-2.svg"), label: "the chaos", note: "The laugh that turns a normal Tuesday into a story.", time: "00:04:16:08" },
+  { src: asset("/media/memory-3.svg"), label: "the calm", note: "Loudest person in the room. Safest place in it.", time: "00:07:11:02" },
+  { src: asset("/media/memory-4.svg"), label: "the gold", note: "Golden hour looks good on you. So does this year.", time: "00:16:11:26" },
 ];
 
 const STRIP = [
-  { src: "/media/memory-1.svg", label: "entrance", time: "00:01" },
-  { src: "/media/memory-2.svg", label: "chaos", time: "00:04" },
-  { src: "/media/reel-1.svg", label: "opening scene", time: "00:08" },
-  { src: "/media/memory-3.svg", label: "calm", time: "00:11" },
-  { src: "/media/reel-2.svg", label: "plot twist", time: "00:14" },
-  { src: "/media/memory-4.svg", label: "the gold", time: "00:16" },
+  { src: asset("/media/memory-1.svg"), label: "entrance", time: "00:01" },
+  { src: asset("/media/memory-2.svg"), label: "chaos", time: "00:04" },
+  { src: asset("/media/reel-1.svg"), label: "opening scene", time: "00:08" },
+  { src: asset("/media/memory-3.svg"), label: "calm", time: "00:11" },
+  { src: asset("/media/reel-2.svg"), label: "plot twist", time: "00:14" },
+  { src: asset("/media/memory-4.svg"), label: "the gold", time: "00:16" },
 ];
 
 function PolaroidStack() {
@@ -184,7 +185,7 @@ function ScratchCard() {
   return (
     <div className="scratch-shell">
       <div className="scratch-stage">
-        <img src="/media/gift.svg" alt="A birthday gift illustration" loading="lazy" />
+        <img src={asset("/media/gift.svg")} alt="A birthday gift illustration" loading="lazy" />
         <span className="scratch-glow" aria-hidden="true" />
         <canvas
           ref={canvasRef}
@@ -283,7 +284,7 @@ export default function Memories() {
           <Reveal>
             <article className="projector p-intro">
               <div className="projector-gate">
-                <img src="/media/scene-a.svg" alt="Golden hour opening scene" loading="lazy" />
+                <img src={asset("/media/scene-a.svg")} alt="Golden hour opening scene" loading="lazy" />
                 <span className="gate-leak" aria-hidden="true" />
                 <span className="gate-reel mono">REC ● 00:00</span>
               </div>
@@ -298,7 +299,7 @@ export default function Memories() {
           <Reveal delay={0.1}>
             <article className="projector p-surprise">
               <div className="projector-gate">
-                <img src="/media/scene-b.svg" alt="Afterglow scene" loading="lazy" />
+                <img src={asset("/media/scene-b.svg")} alt="Afterglow scene" loading="lazy" />
                 <span className="gate-leak alt" aria-hidden="true" />
                 <span className="gate-reel mono">REC ● 00:14</span>
               </div>

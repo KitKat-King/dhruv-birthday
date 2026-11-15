@@ -16,6 +16,7 @@ import {
 import { EASE } from "@/lib/motion";
 import { drawPaths } from "@/lib/flower-draw";
 import { cn } from "@/lib/cn";
+import { asset } from "@/lib/asset";
 
 /* ── Scrolling reveal ─────────────────────────────────────────── */
 export function Reveal({ children, delay = 0, y = 40, className = "", once = true }) {
@@ -214,8 +215,8 @@ export function Portrait({ className = "", alt = "Dhruv Kaushal" }) {
   return (
     <div className={`portrait ${className}`}>
       <SmartImage
-        src="/media/dp.jpg"
-        fallback="/media/dp.svg"
+        src={asset("/media/dp.jpg")}
+        fallback={asset("/media/dp.svg")}
         alt={alt}
         className="portrait-img"
         loading="eager"
