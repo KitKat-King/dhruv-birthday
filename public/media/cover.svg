@@ -24,10 +24,10 @@
     <circle cx="960" cy="300" r="186"/><circle cx="960" cy="300" r="210"/>
     <path d="M960 52v52"/><path d="M960 496v52"/><path d="M712 300h52"/><path d="M1156 300h52"/>
   </g>
-  <g font-family="'Arial Narrow', 'Helvetica Neue', sans-serif" fill="#fff6e8">
-    <text x="90" y="250" font-size="132" letter-spacing="2">DHRUV</text>
-    <text x="94" y="330" font-size="34" letter-spacing="12" fill="#f4b860">GOLDEN HOUR</text>
-    <text x="94" y="392" font-size="18" letter-spacing="6" fill="#fff6e8" opacity=".55">A PRIVATE BIRTHDAY TRANSMISSION</text>
+  <g font-family="Roboto, 'Arial Narrow', 'Helvetica Neue', sans-serif" font-weight="700" fill="#fff6e8">
+    <text x="90" y="252" font-size="128" letter-spacing="3">DHRUV</text>
+    <text x="94" y="330" font-size="34" letter-spacing="12" fill="#f4b860" font-weight="500">GOLDEN HOUR</text>
+    <text x="94" y="392" font-size="17" letter-spacing="6" fill="#fff6e8" opacity=".55" font-weight="400">A PRIVATE BIRTHDAY TRANSMISSION · 16.11.2026</text>
   </g>
   <g stroke="#f4b860" stroke-width="2" opacity=".7">
     <path d="M90 300h40"/><path d="M90 420h250"/>
