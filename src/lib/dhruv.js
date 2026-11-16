@@ -23,18 +23,6 @@ export const DHRUV = {
         "These are the hours we keep",
       ],
     },
-    {
-      id: "side-b",
-      title: "Happy Birthday",
-      mood: "side b · candles, chorus, cake",
-      accent: "coral",
-      file: "/audio/happy-birthday.mp3",
-      lines: [
-        "One more year of you in the room",
-        "One more chorus, one more wish",
-        "Make it count, then make it loud",
-      ],
-    },
   ],
   lyricLabCode: "369",
   flower: "Sunflower",

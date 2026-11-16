@@ -11,7 +11,6 @@ import {
   Pause,
   Play,
   Radio,
-  SkipForward,
   Sparkles,
   Volume2,
   X,
@@ -158,10 +157,10 @@ export default function MusicChapter() {
       <div className="wrap">
         <SectionHead
           scene="SC.03"
-          eyebrow="THE SOUNDTRACK · TWO SIDES"
+          eyebrow="THE SOUNDTRACK · ONE SONG"
           title="press play."
           accent="stay a while."
-          copy="Side A is the song that owns the aux — Soni Soni is already loaded and playable. Side B only gets played once a year, and it is still waiting for its file. The whole scene starts breathing the moment both slots are full."
+          copy="Soni Soni is the song that owns the aux — it is already loaded and playable. The whole scene starts breathing the moment the slot is full."
         />
 
         <Reveal delay={0.06}>
@@ -215,7 +214,7 @@ export default function MusicChapter() {
               </div>
 
               <p className="mono cassette-note">
-                TWO SIDES · TWO SONGS · TAP TO FLIP
+                ONE SONG · ONE SIDE
               </p>
             </div>
 
@@ -258,10 +257,6 @@ export default function MusicChapter() {
                   <div className="player-controls">
                     <button type="button" className="play-btn" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>
                       {playing ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
-                    </button>
-                    <button type="button" className="side-btn" onClick={() => switchTrack()} aria-label="Switch to the other song">
-                      <SkipForward size={16} />
-                      <span className="mono">NEXT SIDE</span>
                     </button>
                     <span className="mono player-time">
                       {clock(seconds)} / {clock(totalSeconds)}

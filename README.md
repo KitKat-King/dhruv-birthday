@@ -7,7 +7,7 @@ A mobile-first, cinematic birthday film built for Dhruv Kaushal. **THE GOLDEN CU
 - **SC.00 — The Seal.** Cinematic boot sequence with a live T‑minus countdown to 16 November, then a press‑and‑hold wax seal that heats, cracks and takes over the screen.
 - **SC.01 — Hero.** Kinetic `DHRUV / CHAPTER GOLD / IT'S YOUR GOLDEN HOUR` with scroll parallax, a gold-symbol orbit and a velocity-reactive marquee.
 - **SC.02 — The Dossier.** Pointer-tracked 3D ID card with a flip side showing live IST time, holographic stamps, a portrait slot and an original line-drawn sunflower.
-- **SC.03 — Anthems.** A real mixtape for *Soni Soni* and *Happy Birthday*: cassette side flip, vinyl player, dynamic-island now-playing bar and a word-lit lyric card. MP3 slots live in `public/audio/` and the player falls back to a silent visual cut while a slot is empty.
+- **SC.03 — Anthems.** A real mixtape for *Soni Soni*: cassette side flip, vinyl player, dynamic-island now-playing bar and a word-lit lyric card. MP3 slots live in `public/audio/` and the player falls back to a silent visual cut while a slot is empty.
 - **SC.04 — The Reel.** Draggable polaroid stack, scratch-off gift card, contact-sheet film strip and two moving-scene projectors.
 - **SC.05 — The Wish.** A twelve-candle CSS cake with a hold-to-blow interaction, confetti celebration and a wish ticket.
 - **SC.06 — Stay Golden.** `STAY GOLDEN` end credits, a boarding-pass birthday pass with share/copy, a three-tap verified stamp and a post-credits deleted scene.
@@ -19,7 +19,7 @@ Warm cinema, not one color: gold `#f4b860`, coral `#ff7a5c`, jade `#79e0be`, sky
 
 ## Drop in the media
 
-`public/media/dp.jpg` is already set (circular profile crop). See `public/media/README.md` for every other swappable visual, and `public/audio/README.md` for the two song slots.
+`public/media/dp.jpg` is already set (circular profile crop). See `public/media/README.md` for every other swappable visual, and `public/audio/README.md` for the song slot.
 
 ## Stack
 

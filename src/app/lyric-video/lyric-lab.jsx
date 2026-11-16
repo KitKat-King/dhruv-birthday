@@ -497,7 +497,7 @@ export default function LyricLab() {
             <div className="ll-head">
               <div>
                 <span className="ll-step-label">TRACKS · <b>IN THE STUDIO</b></span>
-                <h2>Two songs, <em>one birthday.</em></h2>
+                <h2>One song, <em>one birthday.</em></h2>
               </div>
             </div>
             <div className="ll-tracks">
