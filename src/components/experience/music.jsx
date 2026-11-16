@@ -123,7 +123,18 @@ export default function MusicChapter() {
         setPlaying(false);
       }
     } else {
-      setPlaying((value) => !value);
+      // Not confirmed ready (loading / missing) — retry through the media element.
+      if (el) {
+        setAudioState("loading");
+        try {
+          await el.play();
+          setPlaying(true);
+        } catch {
+          setAudioState("missing");
+        }
+      } else {
+        setPlaying((value) => !value);
+      }
     }
     sfx.click();
     vibrate(10);
@@ -415,6 +426,22 @@ export default function MusicChapter() {
         src={asset(song.file)}
         preload="metadata"
         aria-label={`${song.title} audio`}
+        onLoadedMetadata={(event) => {
+          const el = event.currentTarget;
+          if (el.duration && Number.isFinite(el.duration)) {
+            setDuration(el.duration);
+            setAudioState("ready");
+          }
+        }}
+        onTimeUpdate={(event) => {
+          const el = event.currentTarget;
+          if (el.duration) setProgress(Math.min(1, el.currentTime / el.duration));
+        }}
+        onEnded={() => {
+          setPlaying(false);
+          setProgress(0);
+        }}
+        onError={() => setAudioState("missing")}
       />
 
       <AnimatePresence>
