@@ -175,7 +175,7 @@ function ScratchCard() {
 
   return (
     <div className="scratch-shell">
-      <div className="scratch-stage">
+      <div className={`scratch-stage ${revealed ? "revealed" : ""}`}>
         <img src={asset("/media/gift.svg")} alt="A birthday gift illustration" loading="lazy" />
         <span className="scratch-glow" aria-hidden="true" />
         <canvas
@@ -212,7 +212,7 @@ function ScratchCard() {
             sfx.sparkle();
           }}
         >
-          <Sparkles size={12} /> TAP TO REVEAL
+          <Sparkles size={12} /> {revealed ? "THE GIFT IS OPEN" : "TAP TO REVEAL"}
         </button>
       </div>
     </div>
