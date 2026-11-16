@@ -7,6 +7,7 @@ import {
   ChevronUp,
   Clapperboard,
   Disc3,
+  Maximize2,
   Pause,
   Play,
   Radio,
@@ -54,6 +55,7 @@ export default function MusicChapter() {
   const [audioState, setAudioState] = useState("loading"); // loading | ready | missing
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
+  const filmRef = useRef(null);
   const song = DHRUV.songs[track];
   const lines = song.lines;
 
@@ -125,6 +127,16 @@ export default function MusicChapter() {
     }
     sfx.click();
     vibrate(10);
+  }
+
+  function toggleFullscreen() {
+    const el = filmRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    } else {
+      el.requestFullscreen?.().catch(() => {});
+    }
   }
 
   function switchTrack(next = (track + 1) % DHRUV.songs.length) {
@@ -375,6 +387,7 @@ export default function MusicChapter() {
               <span>{song.title}</span>
             </div>
             <video
+              ref={filmRef}
               className="lyric-film-video"
               src={asset("/media/soni-soni-full.mp4")}
               controls
@@ -382,6 +395,9 @@ export default function MusicChapter() {
               preload="metadata"
               aria-label={`Generated lyric video for ${song.title}`}
             />
+            <button type="button" className="lyric-film-fs" onClick={toggleFullscreen} aria-label="Toggle fullscreen">
+              <Maximize2 size={13} />
+            </button>
             <p className="lyric-film-note mono">THE GENERATED OUTPUT · FROM THE LYRIC LAB PIPELINE · SYNCED TO THE SONG</p>
           </div>
         </Reveal>
