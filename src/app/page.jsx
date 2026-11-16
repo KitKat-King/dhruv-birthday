@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import Loader from "@/components/experience/loader";
-import Unlock from "@/components/experience/unlock";
+import PinkLock from "@/components/experience/pink-lock";
 import Hero from "@/components/experience/hero";
 import Dossier from "@/components/experience/dossier";
 import MusicChapter from "@/components/experience/music";
@@ -16,7 +15,7 @@ import { Sunflower } from "@/components/ui/motion-kit";
 import { EASE } from "@/lib/motion";
 
 export default function Home() {
-  const [phase, setPhase] = useState("boot"); // boot → seal → film
+  const [phase, setPhase] = useState("lock"); // lock → film
   const [credits, setCredits] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.4 });
@@ -43,7 +42,7 @@ export default function Home() {
 
   function replay() {
     setCredits(false);
-    setPhase("boot");
+    setPhase("lock");
     window.scrollTo({ top: 0, behavior: "auto" });
   }
 
@@ -60,10 +59,7 @@ export default function Home() {
         />
       )}
 
-      <AnimatePresence mode="wait">
-        {phase === "boot" && <Loader key="loader" onDone={() => setPhase("seal")} />}
-        {phase === "seal" && <Unlock key="unlock" onUnlock={enterFilm} />}
-      </AnimatePresence>
+      {phase === "lock" && <PinkLock key="pink-lock" onUnlock={enterFilm} />}
 
       {phase === "film" && (
         <>

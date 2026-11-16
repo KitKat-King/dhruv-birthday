@@ -4,14 +4,11 @@ import "./lyric-lab.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import confetti from "canvas-confetti";
 import {
   Check,
   Copy,
-  Delete,
   FileAudio,
   FileText,
-  Lock,
   Music2,
   Pause,
   Play,
@@ -23,8 +20,6 @@ import {
 import { DHRUV } from "@/lib/dhruv";
 import { SONI_SONI } from "@/lib/soni-soni-sync";
 import { asset } from "@/lib/asset";
-
-const PINK = ["#ff667f", "#ff2357", "#f6339a", "#fda5d5", "#fff1f2"];
 
 /* ── tiny copy helper ─────────────────────────────────────────── */
 function useCopy() {
@@ -83,116 +78,6 @@ function Toast({ text }) {
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-/* ── the pink lock ────────────────────────────────────────────── */
-function LockScreen({ onUnlock }) {
-  const code = DHRUV.lyricLabCode;
-  const [entry, setEntry] = useState("");
-  const [bad, setBad] = useState(false);
-  const [shakeKey, setShakeKey] = useState(0);
-
-  const press = useCallback(
-    (digit) => {
-      setEntry((value) => {
-        if (value.length >= code.length) return value;
-        const next = value + digit;
-        if (next.length === code.length) {
-          if (next === code) {
-            sessionStorage.setItem("dhrv-lyric-lab", "1");
-            confetti({
-              particleCount: 90,
-              spread: 82,
-              startVelocity: 32,
-              origin: { y: 0.6 },
-              colors: PINK,
-            });
-            setTimeout(onUnlock, 450);
-          } else {
-            setBad(true);
-            setShakeKey((k) => k + 1);
-            setTimeout(() => setBad(false), 600);
-            setTimeout(() => setEntry(""), 750);
-          }
-        }
-        return next;
-      });
-    },
-    [code, onUnlock]
-  );
-
-  const backspace = useCallback(() => setEntry((value) => value.slice(0, -1)), []);
-
-  useEffect(() => {
-    const onKey = (event) => {
-      if (/^[0-9]$/.test(event.key)) press(event.key);
-      if (event.key === "Backspace") backspace();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [press, backspace]);
-
-  return (
-    <motion.div className="ll-lock" exit={{ opacity: 0, scale: 1.06 }} transition={{ duration: 0.5 }}>
-      <div className="ll-pinkbg" />
-      <div className="ll-pinkbg-md" />
-      <motion.div
-        className="ll-glass"
-        initial={{ opacity: 0, y: 22, scale: 0.97, x: 0 }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          x: shakeKey ? [-14, 14, -10, 10, -5, 5, 0] : 0,
-        }}
-        transition={{ duration: shakeKey ? 0.4 : 0.6, ease: shakeKey ? [0.36, 0.07, 0.19, 0.97] : [0.16, 1, 0.3, 1] }}
-      >
-        <div className="ll-lock-head">
-          <span>DHRV · LYRIC LAB</span>
-          <span className="ll-lock-live"><i /> PRIVATE</span>
-        </div>
-
-        <div className="ll-avatar">
-          <span className="ll-avatar-ring">
-            <img src={asset("/media/dp.jpg")} alt="Dhruv" draggable="false" />
-          </span>
-          <span className="ll-avatar-badge"><Lock size={13} strokeWidth={2.4} /></span>
-        </div>
-
-        <h2 className="ll-lock-title">
-          Unlock <em>your surprise</em>
-        </h2>
-        <p className="ll-lock-sub">Enter the secret code to begin</p>
-
-        <div className="ll-dots" aria-label={`${entry.length} of ${code.length} digits entered`}>
-          {Array.from({ length: code.length }).map((_, index) => (
-            <span key={index} className={`ll-dot ${index < entry.length ? "on" : ""}`}>
-              {index < entry.length ? <Check size={12} strokeWidth={3} /> : ""}
-            </span>
-          ))}
-        </div>
-
-        <div className="ll-lock-status" aria-live="polite">
-          {bad ? <span>Oops! Try again...</span> : ""}
-        </div>
-
-        <div className="ll-keypad">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
-            <button key={digit} type="button" className="ll-key" onClick={() => press(digit)}>
-              {digit}
-            </button>
-          ))}
-          <span className="ll-key blank" aria-hidden="true" />
-          <button type="button" className="ll-key" onClick={() => press("0")}>0</button>
-          <button type="button" className="ll-key back" onClick={backspace} aria-label="Delete digit">
-            <Delete size={20} />
-          </button>
-        </div>
-
-        <p className="ll-lock-foot">3 digits · count by three</p>
-      </motion.div>
-    </motion.div>
   );
 }
 
@@ -396,12 +281,7 @@ const PROMPT =
   'Make a 16:9 lyric video for song.mp3 using the lyrics in lyrics.txt. Sync every word to the vocals with forced alignment. Style: a Spotify lyrics card that tilts in 3D, then the singer as glowing red particles with big pop lyrics. Show me 3 still frames first, then render the MP4.';
 
 export default function LyricLab() {
-  const [unlocked, setUnlocked] = useState(false);
   const { toast, copy } = useCopy();
-
-  useEffect(() => {
-    if (sessionStorage.getItem("dhrv-lyric-lab") === "1") setUnlocked(true);
-  }, []);
 
   return (
     <div className="ll">
@@ -409,248 +289,242 @@ export default function LyricLab() {
       <div className="ll-pinkbg-md" />
       <div className="ll-grain" aria-hidden="true" />
 
-      <AnimatePresence>
-        {!unlocked && <LockScreen onUnlock={() => setUnlocked(true)} />}
-      </AnimatePresence>
-
-      {unlocked ? (
-        <motion.div
-          className="ll-page"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="ll-wrap">
-            <div className="ll-scroll-hint" aria-hidden="true">
-              <ChevronDown size={13} />
-              <span>Scroll</span>
-            </div>
-            <header className="ll-topbar">
-              <Link href="/" className="ll-brand">
-                <span className="ll-brand-mark"><Music2 size={16} /></span>
-                <span>
-                  <b>Lyric Lab</b>
-                  <small>DHRV · GOLDEN HOUR</small>
-                </span>
-              </Link>
-              <Link href="/" className="ll-back"><ArrowLeft size={11} /> BACK TO THE FILM</Link>
-            </header>
-
-            <section className="ll-hero">
-              <span className="ll-eyebrow"><Sparkles size={11} /> Scene 03.5 · the pink lock · unlocked</span>
-              <h1>
-                <span className="row">Make</span>
-                <span className="row">Lyric <em>Videos</em></span>
-              </h1>
-              <p className="ll-hero-line">with Dhruv&apos;s two songs</p>
-              <p className="ll-hero-copy">
-                <strong>Soni Soni</strong> is downloaded, the lyrics are in, and the guide&apos;s
-                pipeline is wired up — no After Effects, no timeline, just the song and its words.
-                Everything below is the exact setup, plus the output: a player that lights the
-                lyrics as the track runs.
-              </p>
-              <div className="ll-chips">
-                <span className="ll-chip">16 : 9</span>
-                <span className="ll-chip">2 : 57 runtime</span>
-                <span className="ll-chip">word-lit</span>
-                <span className="ll-chip">code {DHRUV.lyricLabCode}</span>
-              </div>
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">STEP 05 · <b>THE OUTPUT</b></span>
-                  <h2>Play it. <em>Watch it light up.</em></h2>
-                </div>
-                <p>
-                  The song with its lyric map. Tap a line to cue it, or press play and let the
-                  words chase the vocals.
-                </p>
-              </div>
-              <LyricPlayer />
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">STEP 01 · <b>PICK YOUR AI</b></span>
-                  <h2>Three agents, <em>one prompt.</em></h2>
-                </div>
-                <p>Same prompt works in Claude Code, Codex or Antigravity.</p>
-              </div>
-              <div className="ll-ai-grid">
-                {[
-                  { name: "Claude Code", tag: "Best quality", blurb: "Opus plans the shots and fixes its own mistakes.", cmd: "curl -fsSL https://claude.ai/install.sh | bash" },
-                  { name: "Codex", tag: "Free limits", blurb: "OpenAI's coding agent — sign in with ChatGPT.", cmd: "npm install -g @openai/codex" },
-                  { name: "Antigravity", tag: "Free limits", blurb: "Google's AI code editor, open a folder and chat.", cmd: "antigravity.google" },
-                ].map((tool) => (
-                  <div key={tool.name} className="ll-ai">
-                    <div className="ll-ai-top">
-                      <b>{tool.name}</b>
-                      <span className="ll-ai-tag">{tool.tag}</span>
-                    </div>
-                    <p>{tool.blurb}</p>
-                    <div className="ll-code">
-                      <CopyButton text={tool.cmd} />
-                      {tool.cmd}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">STEP 02 · <b>INSTALL THE HELPERS</b></span>
-                  <h2>Once. <em>Then never again.</em></h2>
-                </div>
-                <p>Node films each frame, uv runs the lyric-sync script, FFmpeg joins them.</p>
-              </div>
-              <div className="ll-os-grid">
-                <div className="ll-os">
-                  <span>Mac · Terminal</span>
-                  <div className="ll-code">
-                    <CopyButton text="brew install node uv ffmpeg" />
-                    brew install node uv ffmpeg
-                  </div>
-                </div>
-                <div className="ll-os">
-                  <span>Windows · PowerShell</span>
-                  <div className="ll-code">
-                    <CopyButton text="winget install OpenJS.NodeJS astral-sh.uv ffmpeg" />
-                    winget install OpenJS.NodeJS astral-sh.uv ffmpeg
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">STEP 03 · <b>SET UP THE FOLDER</b></span>
-                  <h2>Two files. <em>That&apos;s the whole studio.</em></h2>
-                </div>
-                <p>Song first, lyrics second, then open the folder in your agent.</p>
-              </div>
-              <div className="ll-steps">
-                <div className="ll-step">
-                  <span className="ll-step-num">01</span>
-                  <div className="ll-step-body">
-                    <h3>song.mp3</h3>
-                    <p>The part of the song you want. 30–60 seconds works best.</p>
-                    <div className="ll-files">
-                      <div className="ll-file">
-                        <FileAudio size={16} />
-                        <span>
-                          <b>soni-soni.mp3</b>
-                          <span>already in public/audio · 2:57</span>
-                        </span>
-                      </div>
-                      <div className="ll-file">
-                        <FileText size={16} />
-                        <span>
-                          <b>lyrics.txt</b>
-                          <span>one line per lyric line, in order</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="ll-step">
-                  <span className="ll-step-num">02</span>
-                  <div className="ll-step-body">
-                    <h3>Open the folder in your agent</h3>
-                    <p>Run claude or codex inside it, or open it in Antigravity and let the agent work.</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">STEP 04 · <b>STARTER PROMPT</b></span>
-                  <h2>Paste it. <em>Swap the gold bits.</em></h2>
-                </div>
-                <p>The full prompt behind the pink Spotify clip, tuned for Dhruv.</p>
-              </div>
-              <div className="ll-prompt">
-                <div className="ll-prompt-head">
-                  <span>FULL PROMPT · CLIP LYRICS</span>
-                  <CopyButton text={PROMPT} />
-                </div>
-                <p>
-                  Make a 16:9 lyric video for <b>song.mp3</b> using the lyrics in{" "}
-                  <b>lyrics.txt</b>. Sync every word to the vocals with forced alignment. Style: a{" "}
-                  <i>Spotify lyrics card that tilts in 3D</i>, then the singer as{" "}
-                  <i>glowing red particles with big pop lyrics</i>. Show me{" "}
-                  <i>3 still frames</i> first, then render the MP4.
-                </p>
-                <div className="ll-prompt-foot">
-                  <span className="ll-chip">swap the red parts</span>
-                  <span className="ll-chip">change mood with colour</span>
-                  <span className="ll-chip">no after effects</span>
-                </div>
-              </div>
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">TIPS · <b>SAVE HOURS</b></span>
-                  <h2>Four habits <em>that pay.</em></h2>
-                </div>
-              </div>
-              <div className="ll-tips">
-                {[
-                  "Always ask for still frames first — a still takes seconds, a render takes minutes.",
-                  "Fix one thing at a time: “make line 3 appear 0.2 s earlier”, not “make it better”.",
-                  "Change the mood with colour: same engine, red → pink → gold is a new video.",
-                  "Words out of sync? Ask it to re-run alignment on the vocals only.",
-                ].map((tip, index) => (
-                  <div className="ll-tip" key={tip}>
-                    <b>{String(index + 1).padStart(2, "0")}</b>
-                    <p>{tip}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="ll-section">
-              <div className="ll-head">
-                <div>
-                  <span className="ll-step-label">TRACKS · <b>IN THE STUDIO</b></span>
-                  <h2>Two songs, <em>one birthday.</em></h2>
-                </div>
-              </div>
-              <div className="ll-tracks">
-                {DHRUV.songs.map((song, index) => (
-                  <div className="ll-track" key={song.id}>
-                    <div className="ll-track-top">
-                      <span className="ll-track-side">SIDE {index === 0 ? "A" : "B"}</span>
-                      <TrackState file={song.file} />
-                    </div>
-                    <h3>{song.title}</h3>
-                    <small>{song.mood}</small>
-                    <div className="ll-track-bar" aria-hidden="true">
-                      {Array.from({ length: 18 }).map((_, i) => (
-                        <i key={i} style={{ animationDelay: `${(i % 7) * 0.09}s`, height: `${30 + ((i * 7) % 70)}%` }} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <footer className="ll-footer">
-              <span>CODE {DHRUV.lyricLabCode} · PINK LOCK · DHRV / GOLD</span>
-              <span className="ll-sign">From your best friend</span>
-            </footer>
+      <motion.div
+        className="ll-page"
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="ll-wrap">
+          <div className="ll-scroll-hint" aria-hidden="true">
+            <ChevronDown size={13} />
+            <span>Scroll</span>
           </div>
-        </motion.div>
-      ) : null}
+          <header className="ll-topbar">
+            <Link href="/" className="ll-brand">
+              <span className="ll-brand-mark"><Music2 size={16} /></span>
+              <span>
+                <b>Lyric Lab</b>
+                <small>DHRV · GOLDEN HOUR</small>
+              </span>
+            </Link>
+            <Link href="/" className="ll-back"><ArrowLeft size={11} /> BACK TO THE FILM</Link>
+          </header>
+
+          <section className="ll-hero">
+            <span className="ll-eyebrow"><Sparkles size={11} /> Scene 03.5 · the pink room</span>
+            <h1>
+              <span className="row">Make</span>
+              <span className="row">Lyric <em>Videos</em></span>
+            </h1>
+            <p className="ll-hero-line">with Dhruv&apos;s two songs</p>
+            <p className="ll-hero-copy">
+              <strong>Soni Soni</strong> is downloaded, the lyrics are in, and the guide&apos;s
+              pipeline is wired up — no After Effects, no timeline, just the song and its words.
+              Everything below is the exact setup, plus the output: a player that lights the
+              lyrics as the track runs.
+            </p>
+            <div className="ll-chips">
+              <span className="ll-chip">16 : 9</span>
+              <span className="ll-chip">2 : 57 runtime</span>
+              <span className="ll-chip">word-lit</span>
+              <span className="ll-chip">code {DHRUV.lyricLabCode}</span>
+            </div>
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">STEP 05 · <b>THE OUTPUT</b></span>
+                <h2>Play it. <em>Watch it light up.</em></h2>
+              </div>
+              <p>
+                The song with its lyric map. Tap a line to cue it, or press play and let the
+                words chase the vocals.
+              </p>
+            </div>
+            <LyricPlayer />
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">STEP 01 · <b>PICK YOUR AI</b></span>
+                <h2>Three agents, <em>one prompt.</em></h2>
+              </div>
+              <p>Same prompt works in Claude Code, Codex or Antigravity.</p>
+            </div>
+            <div className="ll-ai-grid">
+              {[
+                { name: "Claude Code", tag: "Best quality", blurb: "Opus plans the shots and fixes its own mistakes.", cmd: "curl -fsSL https://claude.ai/install.sh | bash" },
+                { name: "Codex", tag: "Free limits", blurb: "OpenAI's coding agent — sign in with ChatGPT.", cmd: "npm install -g @openai/codex" },
+                { name: "Antigravity", tag: "Free limits", blurb: "Google's AI code editor, open a folder and chat.", cmd: "antigravity.google" },
+              ].map((tool) => (
+                <div key={tool.name} className="ll-ai">
+                  <div className="ll-ai-top">
+                    <b>{tool.name}</b>
+                    <span className="ll-ai-tag">{tool.tag}</span>
+                  </div>
+                  <p>{tool.blurb}</p>
+                  <div className="ll-code">
+                    <CopyButton text={tool.cmd} />
+                    {tool.cmd}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">STEP 02 · <b>INSTALL THE HELPERS</b></span>
+                <h2>Once. <em>Then never again.</em></h2>
+              </div>
+              <p>Node films each frame, uv runs the lyric-sync script, FFmpeg joins them.</p>
+            </div>
+            <div className="ll-os-grid">
+              <div className="ll-os">
+                <span>Mac · Terminal</span>
+                <div className="ll-code">
+                  <CopyButton text="brew install node uv ffmpeg" />
+                  brew install node uv ffmpeg
+                </div>
+              </div>
+              <div className="ll-os">
+                <span>Windows · PowerShell</span>
+                <div className="ll-code">
+                  <CopyButton text="winget install OpenJS.NodeJS astral-sh.uv ffmpeg" />
+                  winget install OpenJS.NodeJS astral-sh.uv ffmpeg
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">STEP 03 · <b>SET UP THE FOLDER</b></span>
+                <h2>Two files. <em>That&apos;s the whole studio.</em></h2>
+              </div>
+              <p>Song first, lyrics second, then open the folder in your agent.</p>
+            </div>
+            <div className="ll-steps">
+              <div className="ll-step">
+                <span className="ll-step-num">01</span>
+                <div className="ll-step-body">
+                  <h3>song.mp3</h3>
+                  <p>The part of the song you want. 30–60 seconds works best.</p>
+                  <div className="ll-files">
+                    <div className="ll-file">
+                      <FileAudio size={16} />
+                      <span>
+                        <b>soni-soni.mp3</b>
+                        <span>already in public/audio · 2:57</span>
+                      </span>
+                    </div>
+                    <div className="ll-file">
+                      <FileText size={16} />
+                      <span>
+                        <b>lyrics.txt</b>
+                        <span>one line per lyric line, in order</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="ll-step">
+                <span className="ll-step-num">02</span>
+                <div className="ll-step-body">
+                  <h3>Open the folder in your agent</h3>
+                  <p>Run claude or codex inside it, or open it in Antigravity and let the agent work.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">STEP 04 · <b>STARTER PROMPT</b></span>
+                <h2>Paste it. <em>Swap the gold bits.</em></h2>
+              </div>
+              <p>The full prompt behind the pink Spotify clip, tuned for Dhruv.</p>
+            </div>
+            <div className="ll-prompt">
+              <div className="ll-prompt-head">
+                <span>FULL PROMPT · CLIP LYRICS</span>
+                <CopyButton text={PROMPT} />
+              </div>
+              <p>
+                Make a 16:9 lyric video for <b>song.mp3</b> using the lyrics in{" "}
+                <b>lyrics.txt</b>. Sync every word to the vocals with forced alignment. Style: a{" "}
+                <i>Spotify lyrics card that tilts in 3D</i>, then the singer as{" "}
+                <i>glowing red particles with big pop lyrics</i>. Show me{" "}
+                <i>3 still frames</i> first, then render the MP4.
+              </p>
+              <div className="ll-prompt-foot">
+                <span className="ll-chip">swap the red parts</span>
+                <span className="ll-chip">change mood with colour</span>
+                <span className="ll-chip">no after effects</span>
+              </div>
+            </div>
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">TIPS · <b>SAVE HOURS</b></span>
+                <h2>Four habits <em>that pay.</em></h2>
+              </div>
+            </div>
+            <div className="ll-tips">
+              {[
+                "Always ask for still frames first — a still takes seconds, a render takes minutes.",
+                "Fix one thing at a time: “make line 3 appear 0.2 s earlier”, not “make it better”.",
+                "Change the mood with colour: same engine, red → pink → gold is a new video.",
+                "Words out of sync? Ask it to re-run alignment on the vocals only.",
+              ].map((tip, index) => (
+                <div className="ll-tip" key={tip}>
+                  <b>{String(index + 1).padStart(2, "0")}</b>
+                  <p>{tip}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="ll-section">
+            <div className="ll-head">
+              <div>
+                <span className="ll-step-label">TRACKS · <b>IN THE STUDIO</b></span>
+                <h2>Two songs, <em>one birthday.</em></h2>
+              </div>
+            </div>
+            <div className="ll-tracks">
+              {DHRUV.songs.map((song, index) => (
+                <div className="ll-track" key={song.id}>
+                  <div className="ll-track-top">
+                    <span className="ll-track-side">SIDE {index === 0 ? "A" : "B"}</span>
+                    <TrackState file={song.file} />
+                  </div>
+                  <h3>{song.title}</h3>
+                  <small>{song.mood}</small>
+                  <div className="ll-track-bar" aria-hidden="true">
+                    {Array.from({ length: 18 }).map((_, i) => (
+                      <i key={i} style={{ animationDelay: `${(i % 7) * 0.09}s`, height: `${30 + ((i * 7) % 70)}%` }} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <footer className="ll-footer">
+            <span>CODE {DHRUV.lyricLabCode} · PINK ROOM · DHRV / GOLD</span>
+            <span className="ll-sign">From your best friend</span>
+          </footer>
+        </div>
+      </motion.div>
 
       <Toast text={toast} />
     </div>
