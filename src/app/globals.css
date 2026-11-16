@@ -948,6 +948,12 @@ img { display: block; max-width: 100%; }
 .lyric-foot .mono { font-size: 6px; color: var(--faint); }
 .lyric-bloom { position: absolute; right: 14px; top: 14px; width: 42px; color: rgba(255, 122, 92, 0.5); pointer-events: none; }
 .lyric-note { margin: 0; font-size: 5.5px; color: rgba(255, 246, 232, 0.24); letter-spacing: 0.1em; line-height: 1.6; }
+.lyric-film { margin-top: 26px; }
+.lyric-film-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.lyric-film-head span { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 6px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint); }
+.lyric-film-head span:first-child { color: var(--gold); }
+.lyric-film-video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 18px; background: #000; border: 1px solid rgba(255, 255, 255, 0.12); }
+.lyric-film-note { margin: 10px 0 0; font-size: 5.5px; color: rgba(255, 246, 232, 0.24); letter-spacing: 0.1em; line-height: 1.6; }
 .music-footnote {
   display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center;
   margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--line);

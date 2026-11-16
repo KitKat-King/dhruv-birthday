@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowUpRight,
   ChevronUp,
+  Clapperboard,
   Disc3,
   Pause,
   Play,
@@ -372,6 +373,24 @@ export default function MusicChapter() {
             </div>
           </Reveal>
         </div>
+
+        <Reveal delay={0.1}>
+          <div className="lyric-film">
+            <div className="lyric-film-head mono">
+              <span><Clapperboard size={12} /> GENERATED CLIP · 16 : 9 · 176.9S</span>
+              <span>{song.title}</span>
+            </div>
+            <video
+              className="lyric-film-video"
+              src={asset("/media/soni-soni-full.mp4")}
+              controls
+              playsInline
+              preload="metadata"
+              aria-label={`Generated lyric video for ${song.title}`}
+            />
+            <p className="lyric-film-note mono">THE GENERATED OUTPUT · FROM THE LYRIC LAB PIPELINE · SYNCED TO THE SONG</p>
+          </div>
+        </Reveal>
 
         <Reveal delay={0.08}>
           <div className="music-footnote">
