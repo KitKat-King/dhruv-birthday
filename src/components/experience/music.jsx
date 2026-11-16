@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ArrowUpRight,
   ChevronUp,
   Clapperboard,
   Disc3,
@@ -391,18 +390,6 @@ export default function MusicChapter() {
           <div className="music-footnote">
             <span className="mono"><Volume2 size={12} /> AUDIO SLOTS ARMED</span>
           </div>
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <Link href="/lyric-video" className="lab-link">
-            <span className="lab-link-icon"><Sparkles size={14} /></span>
-            <span className="lab-link-copy">
-              <span className="mono">EXTRA SCENE · LOCKED</span>
-              <strong>Open the Lyric Lab</strong>
-              <em>Soni Soni, synced word by word — code required.</em>
-            </span>
-            <ArrowUpRight size={18} />
-          </Link>
         </Reveal>
       </div>
 
